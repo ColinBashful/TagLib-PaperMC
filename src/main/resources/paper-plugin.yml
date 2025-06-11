@@ -1,0 +1,8 @@
+name: TagLib
+version: '1.0'
+main: de.cjdev.taglib.TagLib
+api-version: '1.21'
+load: STARTUP
+authors: [ CJDev ]
+description: Library for Tags via NamespacedKeys
+website: https://modrinth.com/plugin/taglib-papermc
