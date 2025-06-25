@@ -38,6 +38,8 @@ public final class TagLib extends JavaPlugin {
     public static final Map<NamespacedKey, Set<NamespacedKey>> BLOCK_TAGS_REVERSE = new HashMap<>();
     public static final Map<NamespacedKey, Set<NamespacedKey>> ENTITY_TYPE_TAGS = new HashMap<>();
     public static final Map<NamespacedKey, Set<NamespacedKey>> ENTITY_TYPE_TAGS_REVERSE = new HashMap<>();
+    public static final Map<NamespacedKey, Set<NamespacedKey>> FLUID_TAGS = new HashMap<>();
+    public static final Map<NamespacedKey, Set<NamespacedKey>> FLUID_TAGS_REVERSE = new HashMap<>();
 
     @Override
     public void onEnable() {
@@ -47,6 +49,7 @@ public final class TagLib extends JavaPlugin {
         loadRegistryTags(Registry.ITEM, ITEM_TAGS, ITEM_TAGS_REVERSE);
         loadRegistryTags(Registry.BLOCK, BLOCK_TAGS, BLOCK_TAGS_REVERSE);
         loadRegistryTags(Registry.ENTITY_TYPE, ENTITY_TYPE_TAGS, ENTITY_TYPE_TAGS_REVERSE);
+        loadRegistryTags(Registry.FLUID, FLUID_TAGS, FLUID_TAGS_REVERSE);
 
         Map<PathRecord.TagType, List<Map.Entry<NamespacedKey, NamespacedKey>>> TEMP_REFERENCES = new HashMap<>(PathRecord.TagType.values().length);
         for (Plugin plugin : getServer().getPluginManager().getPlugins()) {
@@ -169,7 +172,8 @@ public final class TagLib extends JavaPlugin {
         private enum TagType implements StringRepresentable {
             ITEM("item", ITEM_TAGS),
             BLOCK("block", BLOCK_TAGS),
-            ENTITY_TYPE("entity_type", ENTITY_TYPE_TAGS);
+            ENTITY_TYPE("entity_type", ENTITY_TYPE_TAGS),
+            FLUID("fluid", FLUID_TAGS);
 
             private final String name;
             private final Map<NamespacedKey, Set<NamespacedKey>> connectedMap;
@@ -225,7 +229,7 @@ public final class TagLib extends JavaPlugin {
                     continue;
 
                 NamespacedKey tagKey = new NamespacedKey(namespace, tagName);
-                LOGGER.warning(tagKey.asString());
+                LOGGER.finest(tagKey.asString());
                 try (InputStream is = zipFile.getInputStream(zipEntry)) {
                     ObjectMapper objectMapper = new ObjectMapper();
                     JsonNode jsonNode = objectMapper.readTree(is);
